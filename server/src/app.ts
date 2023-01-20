@@ -1,11 +1,13 @@
 import express from "express";
+import cors from "cors";
+
 require("dotenv").config()
 
 import { sequelize } from "./db";
 
 const app = express();
 const port = process.env.PORT || 8080;  
-const cors = require("cors")
+
 const models = require("./models/models");
 import router  from "./routes/routes"
 
