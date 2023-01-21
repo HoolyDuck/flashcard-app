@@ -16,13 +16,13 @@ app.use('/api', router)
 app.use(cors())
 app.use(express.json())
 
-const start = async () => {
+const start = async () : Promise<void> => {
   try {
 
     await sequelize.authenticate()
     await sequelize.sync()
 
-    app.listen(port, () => {
+    app.listen(port, () : void => {
       console.log("Server started")
     });
 
