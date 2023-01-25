@@ -25,8 +25,13 @@ class CardController {
     res.json(cards);
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response, next: NextFunction) {
     const { question, answer, topicId } = req.body;
+
+    if (!question) {
+        return next(ApiError.badRequest("Question is not defined"));
+    }
+    
     const card = await prisma.cards.create({
       data: {
         question,
