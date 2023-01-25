@@ -5,6 +5,7 @@ require("dotenv").config()
 
 const app = express();
 const port = process.env.PORT || 8080;  
+import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware";
 
 import router  from "./routes/routes"
 
@@ -13,6 +14,7 @@ import router  from "./routes/routes"
 app.use(cors())
 app.use(express.json())
 app.use('/api', router)
+app.use(errorHandlerMiddleware)
 
 const start = async () : Promise<void> => {
   try {
