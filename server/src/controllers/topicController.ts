@@ -1,11 +1,17 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import { ApiError } from "../error/ApiError";
 
-import { Request, Response } from "express-serve-static-core";
+import { Request, Response, NextFunction } from "express-serve-static-core";
 
 class TopicController {
-  async get(req: Request, res: Response) {
+  async get(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
+
+    if (!id) {
+      return next(ApiError.badRequest("Id is not defined"));
+    }
+
     const topic = await prisma.topics.findUnique({
       where: {
         id: Number(id),
@@ -26,13 +32,18 @@ class TopicController {
     res.json(topics);
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response, next: NextFunction) {
     const { name, description, userId } = req.body;
+
+    if (!name) {
+      return next(ApiError.badRequest("Name is not defined"));
+    }
+
     const topic = await prisma.topics.create({
       data: {
         name,
         description,
-        userId
+        userId,
       },
     });
     res.json(topic);
@@ -53,8 +64,13 @@ class TopicController {
     res.json(topic);
   }
 
-  async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
+
+    if (!id) {
+      return next(ApiError.badRequest("Id is not defined"));
+    }
+
     const topic = await prisma.topics.delete({
       where: {
         id: Number(id),
