@@ -1,0 +1,26 @@
+/* 
+Generic gradient colors
+*/
+:root {
+    --generic-gradient-darker-blue: #2c73d2;
+    --genetic-gradient-blue: #009ce9;
+    --generic-gradient-cyan: #00bedb;
+    --generic-gradient-green: #00d9b3;
+    --generic-gradient-salad: #8bee86;
+    --generic-gradient-yellow: #f9f871;
+
+    --generic-gradient-soft-yellow: #fefece;
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: var(--generic-gradient-soft-yellow);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+}
