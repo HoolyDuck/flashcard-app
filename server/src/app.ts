@@ -8,10 +8,11 @@ const port = process.env.PORT || 8080;
 
 import router  from "./routes/routes"
 
-app.use('/api', router)
+
 
 app.use(cors())
 app.use(express.json())
+app.use('/api', router)
 
 const start = async () : Promise<void> => {
   try {
