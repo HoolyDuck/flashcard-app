@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model cards {
+  id        Int      @id @default(autoincrement())
+  question  String   @db.VarChar(255)
+  answer    String?  @db.VarChar(255)
+  progress  Int?     @default(0)
+  createdAt DateTime @db.Timestamptz(6)
+  updatedAt DateTime @db.Timestamptz(6)
+  topicId   Int?
+  topics    topics?  @relation(fields: [topicId], references: [id])
+}
+
+model topics {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @db.Timestamptz(6)
+  updatedAt   DateTime @db.Timestamptz(6)
+  userId      Int?
+  cards       cards[]
+  users       users?   @relation(fields: [userId], references: [id])
+}
+
+model users {
+  id        Int      @id @default(autoincrement())
+  email     String?  @unique @db.VarChar(255)
+  password  String?  @db.VarChar(255)
+  createdAt DateTime @db.Timestamptz(6)
+  updatedAt DateTime @db.Timestamptz(6)
+  topics    topics[]
+}
