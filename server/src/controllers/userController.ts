@@ -63,7 +63,9 @@ class UserController {
   }
 
   async auth(req: Request, res: Response) {
-    //check if user is authorized
+    //@ts-ignore
+    const token = generateJWT(req.user)
+    return res.json({token})
   }
 }
 
