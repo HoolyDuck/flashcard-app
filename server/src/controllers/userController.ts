@@ -64,7 +64,11 @@ class UserController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     // TODO: make it not ass
+
+
     const { email, password } = req.body;
+
+  
 
     if (!email || !password) {
       return next(ApiError.badRequest("Invalid email or password"));
@@ -75,6 +79,10 @@ class UserController {
         email: email,
       },
     });
+
+    if (!user) {
+      return next(ApiError.badRequest("Invalid email or password"));
+    }
 
     let comparePassword = bcrypt.compareSync(password, user.password);
     if (!comparePassword) {
