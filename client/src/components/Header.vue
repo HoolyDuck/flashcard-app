@@ -4,13 +4,25 @@
         <router-link to="/">
             <img class="logo" src="../assets/icons8-education-64.png" alt="flashcard app logo" />
         </router-link>
-        <router-link to="/login">
+
+        <router-link v-if="authStore.isAuthenticated" to="/">
+            <button @click="logout" class="login-btn">Logout</button>
+        </router-link>
+
+        <router-link v-else to="/login">
             <button class="login-btn">Login</button>
         </router-link>
     </header>
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "@/store/store";
+
+const authStore = useAuthStore();
+
+function logout() {
+    authStore.setUser(null as any);
+}
 
 </script>
 
