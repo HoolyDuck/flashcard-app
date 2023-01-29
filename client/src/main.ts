@@ -25,7 +25,7 @@ library.add(
 
 const app = createApp(App);
 app.use(router);
-app.use(pinia);
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.use(pinia);
 
 app.mount("#app");
