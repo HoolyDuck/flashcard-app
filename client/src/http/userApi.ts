@@ -6,7 +6,7 @@ interface IUser {
     password: string;
 }
 
-export const register = async (user: IUser) => {
+export const register = async (user: IUser) : Promise<any> => {
     const {data} = await host.post("user/register", user);
     localStorage.setItem("token", data.token);
     return jwt_decode(data.token);
@@ -18,7 +18,7 @@ export const login = async (user: IUser): Promise<any> => {
     return jwt_decode(data.token);
 }
 
-export const auth = async () => {   
+export const auth = async () : Promise<any> => {   
     const {data} = await authHost.get("user/auth");
     localStorage.setItem("token", data.token);
     return jwt_decode(data.token);
