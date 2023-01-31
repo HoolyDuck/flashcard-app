@@ -29,8 +29,8 @@ app.use(pinia);
 
 const authStore = useAuthStore();
 
-router.beforeEach((to, from, next) => {
-  authStore.checkAuth();
+router.beforeEach(async (to, from, next) => {
+  await authStore.checkAuth();
   if (to.meta.auth) {
     if (authStore.isAuthenticated) {
       next();
