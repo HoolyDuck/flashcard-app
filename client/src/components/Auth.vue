@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/store/store";
-import { login, register } from "../http/userApi";
+import { useAuthStore } from "@/store/authStore";
 import { ref, watch } from "vue";
 
 const router = useRouter();
@@ -24,15 +23,14 @@ async function loginAction(e: Event) {
     try {
         isLoading.value = true
         //prob move it elsewhere (to store or something)
-        const response = await login(
+        authStore.login(
             {
                 email: email.value,
                 password: password.value
+            }).then(() => {
+                errorMessage.value = ""
+                router.push("/topics");
             });
-
-        authStore.setUser(response)
-        errorMessage.value = ""
-        router.push("/topics");
     }
     catch (e: any) {
         errorMessage.value = !!e.response ? e.response.data.message : "Something went wrong";
@@ -46,13 +44,11 @@ async function registerAction(e: Event) {
     e.preventDefault();
     try {
         //prob move it elsewhere (to store or something)
-        const response = await register(
+        authStore.register(
             {
                 email: email.value,
                 password: password.value
             });
-
-        authStore.setUser(response)
         errorMessage.value = ""
         router.push("/topics");
     }
@@ -86,8 +82,8 @@ async function registerAction(e: Event) {
                 <p class="errorMessage" v-if="errorMessage">{{ errorMessage }}</p>
 
                 <button v-if="currentRoute === '/register'" class="login-btn" @click="registerAction">Register</button>
-                <button v-else class="login-btn" @click="loginAction">{{ isLoading ? "loading..." : "Login" }}</button>
-                
+                <button v-else class="login-btn" @click="loginAction">{{ isLoading? "loading...": "Login" }}</button>
+
                 <router-link v-if="currentRoute === '/register'" to="/login">Have an account? Sign in</router-link>
                 <router-link v-else to="/register">Don't have an account? Sign up</router-link>
 
@@ -99,16 +95,16 @@ async function registerAction(e: Event) {
 
 
 <style scoped>
-
 h1 {
     margin-bottom: .5rem;
     background: var(--generic-gradient-c-db-reverse);
     color: transparent;
     font-weight: 600;
-    
+
     background-clip: text;
 
 }
+
 .login-box-wrapper {
     display: flex;
     justify-content: center;
