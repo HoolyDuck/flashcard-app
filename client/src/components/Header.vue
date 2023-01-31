@@ -16,12 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "@/store/store";
+import { useAuthStore } from "@/store/authStore.js";
 
 const authStore = useAuthStore();
 
 function logout() {
-    authStore.setUser(null as any);
+    authStore.logout();
 }
 
 </script>
